@@ -20,21 +20,49 @@
         </el-col>
       </el-row>
       <!--表格-->
-      <el-table :data="tableData"
+      <el-table :data="userList"
                 stripe
                 style="width: 100%">
-        <el-table-column prop="date"
-                         label="日期"
-                         width="180">
+        <el-table-column prop="username"
+                         label="用户名">
         </el-table-column>
-        <el-table-column prop="name"
-                         label="姓名"
-                         width="180">
+        <el-table-column prop="email"
+                         label="邮箱">
         </el-table-column>
-        <el-table-column prop="address"
-                         label="地址">
+        <el-table-column prop="mobile"
+                         label="电话">
+        </el-table-column>
+        <el-table-column prop="role_name"
+                         label="角色">
+        </el-table-column>
+        <el-table-column prop="mg_state"
+                         label="状态">
+          <template slot-scope="scope">
+            <el-switch v-model="scope.row.mg_state"
+                       active-color="#13ce66"
+                       inactive-color="#ccc">
+            </el-switch>
+          </template>
+        </el-table-column>
+        <el-table-column>
+          <el-button-group>
+            <el-button icon="el-icon-edit"
+                       round></el-button>
+            <el-button icon="el-icon-delete"
+                       round></el-button>
+            <el-button icon="el-icon-setting"
+                       round></el-button>
+          </el-button-group>
         </el-table-column>
       </el-table>
+      <div class="pager_container">
+        <el-pagination @current-change="changePager"
+                       :page-size="reqParams.pagesize"
+                       background
+                       layout="prev,pager,next"
+                       :total="total">
+        </el-pagination>
+      </div>
     </el-card>
   </div>
 </template>
@@ -44,23 +72,28 @@ export default {
   name: 'Users',
   data () {
     return {
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }]
+      userList: [],
+      reqParams: {
+        query: '',
+        pagenum: 1,
+        pagesize: 2
+      },
+      total: 0
+    }
+  },
+  mounted () {
+    this.getData()
+  },
+  methods: {
+    async getData () {
+      const { data: { data, meta } } = await this.$http.get('users', { params: this.reqParams })
+      if (meta.status !== 200) return this.$message.console.error(('获取用户属性失败'))
+      this.userList = data.users
+      this.total = data.total
+    },
+    changePager (newPage) {
+      this.reqParams.pagenum = newPage
+      this.getData()
     }
   }
 }
