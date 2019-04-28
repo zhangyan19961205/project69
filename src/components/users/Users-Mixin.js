@@ -74,9 +74,7 @@ export default {
       // 编辑的提交
       this.$refs.editForm.validate(async valid => {
         if (valid) {
-          const {
-            data: { data, meta }
-          } = await this.$http.put(`users/${this.editForm.id}`, {
+          const {data: { meta }} = await this.$http.put(`users/${this.editForm.id}`, {
             email: this.editForm.email,
             mobile: this.editForm.mobile
           })
