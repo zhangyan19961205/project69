@@ -76,7 +76,7 @@ export default {
 .login_container {
   width: 100%;
   height: 100%;
-  background: linear-gradient(45deg, #ccc, #105763);
+  background: linear-gradient(45deg, #ccc, #102663e5);
 }
 .login_container .box {
   width: 400px;

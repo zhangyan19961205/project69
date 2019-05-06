@@ -5,7 +5,7 @@
                  @click="toggleMenu()"
                  size="mini"
                  circle></el-button>
-      <span class="title">品优购后台管理系统</span>
+      <span class="title">e购商城后台管理系统</span>
       <el-button class="logout"
                  type="danger"
                  size="mini"
@@ -15,7 +15,7 @@
     <el-container>
       <el-aside class="home_aside"
                 :width="collapse?'65px':'180px'">
-        <el-menu :default-active="$route.name"
+        <el-menu :default-active="'/'+$route.name"
                  router
                  :unique-opened="true"
                  :collapse="collapse"
@@ -32,7 +32,8 @@
               <i :class="['iconfont',iconArr[i]]"></i>
               <span>&nbsp;{{item.authName}}</span>
             </template>
-            <el-menu-item :index="lastItem.path"
+            <!-- 二级菜单，index唯一 -->
+            <el-menu-item :index="'/'+lastItem.path"
                           v-for="lastItem in item.children"
                           :key="lastItem.id">
               <!-- <i class="el-icon-menu"></i> -->
@@ -88,11 +89,11 @@ export default {
   height: 100%;
 }
 .home_header {
-  background: #373d41;
+  background: #272733dc;
   line-height: 60px;
 }
 .home_aside {
-  background: #333744;
+  background: #333747;
 }
 .home_main {
   /* background: #eaedf1; */
